@@ -1,7 +1,9 @@
+package com.example;
+
+import com.example.views.*;
 import edu.usu.graphics.*;
 
 import java.util.HashMap;
-import java.util.Stack;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,16 +19,21 @@ public class Game {
     }
 
     public void initialize() {
-        states = new HashMap<>() {{
-//            put(GameStateEnum.MainMenu, new MainMenuView());
-//            put(GameStateEnum.GamePlay, new GamePlayView());
-//            put(GameStateEnum.HighScores, new HighScoresView());
-//            put(GameStateEnum.Help, new HelpView());
-//            put(GameStateEnum.About, new AboutView());
-        }};
+        states = new HashMap<>() {
+            {
+                put(GameStateEnum.MainMenu, new MainMenuView());
+                put(GameStateEnum.GamePlay, new GamePlayView());
+                put(GameStateEnum.HighScores, new HighScoresView());
+                put(GameStateEnum.Help, new HelpView());
+                put(GameStateEnum.About, new AboutView());
+            }
+        };
+
+        // Give all game states a chance to initialize, other than the constructor
         for (var state : states.values()) {
             state.initialize(graphics);
         }
+
         currentState = states.get(GameStateEnum.MainMenu);
         currentState.initializeSession();
     }
@@ -38,6 +45,8 @@ public class Game {
         // Grab the first time
         double previousTime = glfwGetTime();
 
+        // Run the rendering loop until the user has attempted to close
+        // the window or has pressed the ESCAPE key.
         while (!graphics.shouldClose()) {
             double currentTime = glfwGetTime();
             double elapsedTime = currentTime - previousTime;    // elapsed time is in seconds
@@ -53,17 +62,28 @@ public class Game {
         // Poll for window events: required in order for window, keyboard, etc events are captured.
         glfwPollEvents();
 
-        // If user presses ESC, then exit the program
-        if (glfwGetKey(graphics.getWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(graphics.getWindow(), true);
-        }
+        nextStateEnum = currentState.processInput(elapsedTime);
     }
 
     private void update(double elapsedTime) {
+        // Special case for exiting the game
+        if (nextStateEnum == GameStateEnum.Quit) {
+            glfwSetWindowShouldClose(graphics.getWindow(), true);
+        } else {
+            if (nextStateEnum == prevStateEnum) {
+                currentState.update(elapsedTime);
+            } else {
+                currentState = states.get(nextStateEnum);
+                currentState.initializeSession();
+                prevStateEnum = nextStateEnum;
+            }
+        }
     }
 
     private void render(double elapsedTime) {
         graphics.begin();
+
+        currentState.render(elapsedTime);
 
         graphics.end();
     }
