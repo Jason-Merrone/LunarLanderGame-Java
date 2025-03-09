@@ -1,6 +1,7 @@
 package com.example.views;
 
 import com.example.GameStateEnum;
+import com.example.KeyboardInput;
 import edu.usu.graphics.Color;
 import edu.usu.graphics.Font;
 import edu.usu.graphics.Graphics2D;

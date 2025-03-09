@@ -1,9 +1,13 @@
 package com.example.views;
 
 import com.example.GameStateEnum;
+import com.example.KeyboardInput;
 import edu.usu.graphics.Color;
 import edu.usu.graphics.Font;
 import edu.usu.graphics.Graphics2D;
+import com.example.serialization.HighScoresManager;
+
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -12,6 +16,7 @@ public class HighScoresView extends GameStateView {
     private KeyboardInput inputKeyboard;
     private GameStateEnum nextGameState = GameStateEnum.HighScores;
     private Font font;
+    private List<Integer> highScores;
 
     @Override
     public void initialize(Graphics2D graphics) {
@@ -29,6 +34,7 @@ public class HighScoresView extends GameStateView {
     @Override
     public void initializeSession() {
         nextGameState = GameStateEnum.HighScores;
+        highScores = HighScoresManager.instance().getTopHighScores(); // Load high scores when view is initialized
     }
 
     @Override
@@ -44,10 +50,26 @@ public class HighScoresView extends GameStateView {
 
     @Override
     public void render(double elapsedTime) {
-        final String message = "These are the high scores";
-        final float height = 0.075f;
-        final float width = font.measureTextWidth(message, height);
+        final String message = "High Scores";
+        float height = 0.095f;
+        float width = font.measureTextWidth(message, height);
 
-        graphics.drawTextByHeight(font, message, 0.0f - width / 2, 0 - height / 2, height, Color.YELLOW);
+        graphics.drawTextByHeight(font, message, 0.0f - width / 2, 0.4f, height, Color.YELLOW);
+
+        float scoreHeight = 0.075f;
+        float top = 0.2f;
+        int rank = 1;
+        for (Integer score : highScores) {
+            String scoreMessage = rank + ". " + score;
+            width = font.measureTextWidth(scoreMessage, scoreHeight);
+            graphics.drawTextByHeight(font, scoreMessage, 0.0f - width / 2, top - (rank * scoreHeight), scoreHeight, Color.WHITE);
+            rank++;
+            if (rank > 5) break; // Display only top 5
+        }
+        if (highScores.isEmpty()) {
+            String noScoresMessage = "No scores yet!";
+            float noScoresWidth = font.measureTextWidth(noScoresMessage, scoreHeight);
+            graphics.drawTextByHeight(font, noScoresMessage, 0.0f - noScoresWidth / 2, -0.1f, scoreHeight, Color.WHITE);
+        }
     }
 }

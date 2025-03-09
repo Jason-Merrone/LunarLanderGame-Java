@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.serialization.HighScoresManager;
 import com.example.views.*;
 import edu.usu.graphics.*;
 
@@ -13,7 +14,7 @@ public class Game {
     private IGameState currentState;
     GameStateEnum nextStateEnum = GameStateEnum.MainMenu;
     GameStateEnum prevStateEnum = GameStateEnum.MainMenu;
-
+    private HighScoresManager highScoresManager;
     public Game(Graphics2D graphics) {
         this.graphics = graphics;
     }
@@ -28,6 +29,8 @@ public class Game {
                 put(GameStateEnum.About, new AboutView());
             }
         };
+
+        highScoresManager = HighScoresManager.instance();
 
         // Give all game states a chance to initialize, other than the constructor
         for (var state : states.values()) {

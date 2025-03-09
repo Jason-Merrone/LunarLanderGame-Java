@@ -60,19 +60,19 @@ public class Terrain {
             lines.add(line5);
         }
 
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 14; i++){
             ArrayList<Line> newLines = new ArrayList<>();
             for(Line line : lines){
                 Line secondHalfLine = line.halveLine();
-                float r = (float) ((float) smoothness *random.nextGaussian()*(line.getStart().x-secondHalfLine.getEnd().x));
+                float r = (float) ( smoothness *random.nextGaussian()*(line.getStart().x-secondHalfLine.getEnd().x));
                 secondHalfLine.getStart().y = (float).5*(line.getStart().y + secondHalfLine.getEnd().y) + r;
 
-                if(secondHalfLine.getStart().y > 0.5f) {
+                if(secondHalfLine.getStart().y > 0.56f) {
                     r = 0;
                     secondHalfLine.getStart().y = (float).5*(line.getStart().y + secondHalfLine.getEnd().y) + r;
                 }
 
-                if(secondHalfLine.getStart().y < -0f ) {
+                if(secondHalfLine.getStart().y < 0f ) {
                     r = 0;
                     secondHalfLine.getStart().y = (float).5*(line.getStart().y + secondHalfLine.getEnd().y) + r;
                 }
