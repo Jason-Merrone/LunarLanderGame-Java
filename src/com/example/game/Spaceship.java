@@ -11,7 +11,7 @@ public class Spaceship {
     private boolean right = false;
     private boolean collided = false;
     private float remainingFuel = 100f;
-    private float fuelConsumptionRate = 0.2f; // Adjust as needed for your game balance.
+    private float fuelConsumptionRate = 0.6f; // Adjust as needed for your game balance.
 
     private float rotationVelocity = 0.0f;
 
@@ -80,5 +80,9 @@ public class Spaceship {
 
     public float getRemainingFuel(){
         return this.remainingFuel;
+    }
+
+    public boolean isThrusting(){
+        return thrusting;
     }
 }

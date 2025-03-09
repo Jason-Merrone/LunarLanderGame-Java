@@ -5,22 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8858ee06-ea5c-4baa-8898-f17b08ca1729" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/example/serialization/HighScoresManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/example/serialization/Serializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/background.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fire.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/sound/explosion.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/sound/sound.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/sound/victory.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/particles/MyRandom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/particles/Particle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/particles/ParticleSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Starter-Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Starter-Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/KeyboardInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/KeyboardInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/game/Line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/game/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/highscores.json" beforeDir="false" afterPath="$PROJECT_DIR$/highscores.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/StarterProject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/StarterProject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/game/Spaceship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/game/Spaceship.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/game/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/game/Terrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/views/AboutView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/views/AboutView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/views/GamePlayView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/views/GamePlayView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/views/HelpView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/views/HelpView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/views/HighScoresView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/views/HighScoresView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/views/KeyboardInput.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/views/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/views/MainMenuView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +35,7 @@
       <list>
         <option value="Interface" />
         <option value="Enum" />
+        <option value="Kotlin Class" />
         <option value="Class" />
       </list>
     </option>
@@ -62,7 +65,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/jason/course-assn/cs5410/LunarLanderGame-Java/google/gson-2.10.1.jar",
+    "last_opened_file_path": "/home/jason/course-assn/cs5410/LunarLanderGame-Java/resources/sound",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -80,11 +83,11 @@
       <recent name="com.example" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/resources/sound" />
       <recent name="$PROJECT_DIR$/resources/images" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/resources" />
       <recent name="$PROJECT_DIR$/resources/fonts" />
-      <recent name="$PROJECT_DIR$/src/com/example" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
@@ -152,7 +155,7 @@
       <workItem from="1741316093580" duration="6807000" />
       <workItem from="1741410837041" duration="726000" />
       <workItem from="1741474295571" duration="489000" />
-      <workItem from="1741475652569" duration="21479000" />
+      <workItem from="1741475652569" duration="28501000" />
     </task>
     <servers />
   </component>

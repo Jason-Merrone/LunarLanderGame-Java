@@ -4,7 +4,10 @@ import com.example.KeyboardInput;
 import com.example.game.Line;
 import com.example.game.Spaceship;
 import com.example.game.Terrain;
+import com.example.particles.ParticleSystem;
 import com.example.serialization.HighScoresManager;
+import edu.usu.audio.Sound;
+import edu.usu.audio.SoundManager;
 import edu.usu.graphics.*;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -35,11 +38,26 @@ public class GamePlayView extends GameStateView {
     private boolean hardMode = false;
     private boolean newGameStart = false;
     private boolean paused = false;
-    // 0: Resume, 1: Main Menu
     private int pauseMenuSelection = 0;
+    private Texture texParticle;
+    private Texture backgroundTexture;
+    private Rectangle backgroundRect = new Rectangle(-1.0f, -1.0f, 2.0f, 2.0f, -1);
+    ParticleSystem explodeParticles;
+    private boolean explosionStarted = false; // Flag to track if explosion started
+    private SoundManager audio;
+    private Sound explosionSound; // Add a Sound object for explosion sound
+    private Sound winSound;
+    private Sound engineSound;
 
     @Override
     public void initialize(Graphics2D graphics) {
+        audio = new SoundManager();
+        explosionSound = audio.load("explode","resources/sound/explosion.ogg",false);
+        winSound = audio.load("win","resources/sound/victory.ogg",false);
+        engineSound = audio.load("engine","resources/sound/sound.ogg",false);
+
+        texParticle = new Texture("resources/images/fire.png");
+        backgroundTexture = new Texture("resources/images/background.jpg");
         super.initialize(graphics);
 
         inputKeyboard = new KeyboardInput(graphics.getWindow());
@@ -58,11 +76,13 @@ public class GamePlayView extends GameStateView {
                         pauseMenuSelection = (pauseMenuSelection - 1 + 2) % 2;
                     } else {
                         spaceship.setThrust(true);
+                        engineSound.play();
                     }
                 },
                 (double elapsedTime) -> {
                     if (!paused) {
                         spaceship.setThrust(false);
+                        engineSound.stop();
                     }
                 }
         );
@@ -155,6 +175,14 @@ public class GamePlayView extends GameStateView {
         this.hardMode = hardMode;
         this.newGameStart = false;
         paused = false;
+        explodeParticles = null; // Reset particle system on reset
+        explosionStarted = false; // Reset explosion flag
+    }
+
+    public void cleanup() {
+        if (texParticle != null) {
+            texParticle.cleanup();
+        }
     }
 
     @Override
@@ -188,6 +216,7 @@ public class GamePlayView extends GameStateView {
                             0.03f)) {
                         spaceship.isCollided(true);
                         lostGame = true;
+                        explosionSound.play();
                     }
                 }
                 for (Line line : terrain.getSafeZones()) {
@@ -203,17 +232,33 @@ public class GamePlayView extends GameStateView {
                             getCountDownToNextLevel = 5;
                             newGameStart = true;
                             HighScoresManager.instance().addHighScore((int) score); // Save score when game is won
+                            winSound.play();
                         } else {
                             lostGame = true;
+                            explosionSound.play();
                         }
                     }
                 }
             }).start();
         }
+        if(lostGame){
+            if (!explosionStarted) {
+                explodeParticles = new ParticleSystem(
+                        new Vector2f(spaceship.getPosition().x+shipWidth/2, spaceship.getPosition().y+shipHeight/2),
+                        0.01f, 0.005f,
+                        0.12f, 0.05f,
+                        20, 0.5f);
+                explosionStarted = true;
+            }
+            if (explodeParticles != null) {
+                explodeParticles.update(elapsedTime);
+            }
+        }
     }
 
     @Override
     public void render(double elapsedTime) {
+        graphics.draw(backgroundTexture,backgroundRect,Color.WHITE);
         if (!paused) {
             DecimalFormat df = new DecimalFormat("#.##");
             final String fuelRemaining = "Remaining fuel: " + (int) spaceship.getRemainingFuel();
@@ -286,8 +331,10 @@ public class GamePlayView extends GameStateView {
                 graphics.draw(new Rectangle(startPoint.x, startPoint.y, endPoint.x - startPoint.x, 1f), new Color(0.3f, 0.3f, 0.3f));
             }
 
-            graphics.draw(shipTexture, shipRect, spaceship.getAngle(),
-                    new Vector2f(shipRect.left + shipRect.width / 2, shipRect.top + shipRect.height / 2), Color.WHITE);
+            if(!lostGame){
+                graphics.draw(shipTexture, shipRect, spaceship.getAngle(),
+                        new Vector2f(shipRect.left + shipRect.width / 2, shipRect.top + shipRect.height / 2), Color.WHITE);
+            }
         }
         // If the game is paused, draw the pause menu overlay
         else {
@@ -305,6 +352,11 @@ public class GamePlayView extends GameStateView {
                     pauseMenuSelection == 0 ? Color.YELLOW : Color.WHITE);
             graphics.drawTextByHeight(font, mainMenuText, 0 - mainMenuWidth / 2, -0.05f, menuTextHeight,
                     pauseMenuSelection == 1 ? Color.YELLOW : Color.WHITE);
+        }
+        if(lostGame && explodeParticles != null){ // Render particles only if lostGame and particles exist
+            for(var particle : explodeParticles.getParticles()){
+                graphics.draw(texParticle, particle.area, particle.rotation, particle.center, Color.WHITE);
+            }
         }
     }
 
